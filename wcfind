@@ -1,0 +1,2 @@
+#!/bin/bash
+find . $@ | grep -v "\.svn" | grep -v "_darcs" | grep -v "\.git"

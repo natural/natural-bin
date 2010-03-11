@@ -1,0 +1,7 @@
+#!/bin/bash
+if [ -e /usr/bin/yaourt ]
+then
+    yaourt -Ql "$1" | cut -f 2 -d " "
+else
+    pacman -Ql "$1" | cut -f 2 -d " "
+fi

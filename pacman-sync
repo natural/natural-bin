@@ -1,0 +1,7 @@
+#!/bin/bash
+if [ -e /usr/bin/yaourt ]
+then
+    yaourt -S "$1"
+else
+    pacman -S "$1"
+fi
