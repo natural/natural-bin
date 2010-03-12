@@ -1,0 +1,4 @@
+#!/bin/bash
+# i always forget how to run aspell properly...
+
+echo "$@" | aspell -a |tail -n 2|head -n 1

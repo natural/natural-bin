@@ -1,0 +1,73 @@
+#!/usr/bin/env python
+import re
+import sys
+from optparse import OptionParser
+from subprocess import Popen, PIPE
+
+try:
+    from TerminalController import TerminalController
+    term = TerminalController()
+    B, N, R, Y, W = term.BOLD, term.NORMAL, term.RED, term.YELLOW, term.WHITE
+except (ImportError, ):
+    B = N = R = Y = W = ''
+
+
+def options(args=None):
+    parser = OptionParser()
+    add = parser.add_option
+    add('-s', '--status', dest='status', action='store_true', default=False,
+        help='Display daemon status; implies --long')
+    add('-n', '--nocolor', dest='nocolor', action='store_true', default=False,
+        help='Disable colorized output')
+    add('-b', '--background', dest='background', action='store_true', default=False,
+        help='Highlight services started in background.')
+    add('-l', '--line', dest='line', action='store_true', default=False,
+        help='Write one name per line')
+    opts, args = parser.parse_args(sys.argv if args is None else args)
+    return opts, args
+
+
+def ps_grep(name):
+    ps = Popen(['ps', '-e'], stdout=PIPE)
+    grep = Popen(['grep', name], stdin=ps.stdout, stdout=PIPE)
+    return grep.communicate()[0]
+
+
+def daemon_status(name):
+    lines = ps_grep(name).split('\n')
+    try:
+        return lines[0].strip().split()[0]
+    except (IndexError, ):
+        return 'unknown'
+
+def get_daemons():
+    rcconf = open('/etc/rc.conf').read()
+    daemons = re.search('DAEMONS=\((.*?)\)', rcconf).groups()[0]
+    return re.split('\s', daemons)
+
+
+def main():
+    opts, args = options()
+    if opts.nocolor:
+        global B, N, R, Y, W
+        B = N = R = Y = W = ''
+    daemons = get_daemons()
+    name_width = max(len(s) for s in daemons)
+    print_fs = B + Y + '{name:{name_width}}' + W + '{status:>8}'+N
+    for daemon in daemons:
+        noat_daemon = daemon.lstrip('@')
+        name_daemon = noat_daemon if not opts.background else daemon
+        if opts.status:
+            if daemon != noat_daemon and opts.background:
+                name_daemon = R+B+'@'+Y+noat_daemon
+            print print_fs.format(name=name_daemon,
+                                  name_width=name_width,
+                                  status=daemon_status(noat_daemon))
+        elif opts.line:
+            print name_daemon
+        else:
+            print name_daemon,
+
+
+if __name__ == '__main__':
+    main()
