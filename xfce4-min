@@ -1,0 +1,3 @@
+#!/bin/bash
+
+xfwm4 & xfce4-panel & terminal &
