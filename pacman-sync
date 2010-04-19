@@ -1,7 +1,8 @@
 #!/bin/bash
+PKGS=`echo "$@" | sed -r 's/(\w*\/)//g'`
 if [ -e /usr/bin/yaourt ]
 then
-    yaourt -S "$@"
+    yaourt -S "$PKGS"
 else
-    pacman -S "$@"
+    pacman -S "$PKGS"
 fi

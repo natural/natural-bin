@@ -1,2 +1,3 @@
 #!/bin/bash
-/usr/bin/yaourt -Ss "$1"
+PKGS=`echo "$@" | sed -r 's/(\w*\/)//g'`
+/usr/bin/yaourt -Ss "$PKGS"
