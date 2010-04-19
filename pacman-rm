@@ -1,5 +1,5 @@
 #!/bin/bash
-PKGS=`echo "$@" | python -c "import sys;print ' '.join(a.split('/')[-1] for a in sys.stdin.read().split())"`
+PKGS=`echo "$@" | sed -r 's/(\w*\/)//g'`
 if [ -e /usr/bin/yaourt ]
 then
     yaourt -Rns "$PKGS"
