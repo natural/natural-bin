@@ -1,2 +1,2 @@
 #!/bin/bash
-BROWSER=/usr/bin/google-chrome man -H "$@"
+/usr/bin/google-chrome "http://man.cx/$@"
