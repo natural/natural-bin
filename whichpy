@@ -1,0 +1,15 @@
+#!/bin/bash
+
+python -c "
+import sys
+try:
+    import $1
+    fn = $1.__file__
+    if fn.endswith('.pyc') or fn.endswith('.pyo'):
+        fn = fn.rpartition('.py')[0] + '.py'
+    print fn
+    sys.exit(0)
+except (Exception, ), exc:
+    print 'Exception: ', exc
+    sys.exit(1)
+"
