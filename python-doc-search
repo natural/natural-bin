@@ -5,4 +5,4 @@ then
 else
     B=$BROWSER
 fi
-"$B" "http://man.cx/$@"
+"$B" "http://docs.python.org/search.html?q=$@"
