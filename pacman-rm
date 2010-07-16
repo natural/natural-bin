@@ -2,7 +2,7 @@
 PKGS=`echo "$@" | sed -r 's/(\w*\/)//g'`
 if [ -e /usr/bin/yaourt ]
 then
-    yaourt -Rns "$PKGS"
+    yaourt -Rns $PKGS
 else
-    pacman -Rns "$PKGS"
+    pacman -Rns $PKGS
 fi
