@@ -1,0 +1,3 @@
+cd ~/tmp
+wget http://www.interactivebrokers.com/download/unixmacosx.jar
+

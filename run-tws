@@ -1,0 +1,3 @@
+#!/bin/bash
+cd ~/var/IBJts/
+java -Xmx512m -cp hsqldb.jar:jcommon-1.0.12.jar:jfreechart-1.0.9.jar:jhall.jar:jts.jar:language.jar:locales.jar:other.jar:pluginsupport.jar:riskfeed.jar:rss.jar jclient.LoginFrame .

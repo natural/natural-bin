@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd ~/pkg/ThinkTanks
+./ThinkTanks.bin
+

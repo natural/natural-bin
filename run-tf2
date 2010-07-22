@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /home/troy/.wine-steam/drive_c/Program\ Files/Steam
+WINEPREFIX="/home/troy/.wine-steam" WINEDEBUG=-all wine steam.exe -applaunch 440 -nointro -dxlevel 81

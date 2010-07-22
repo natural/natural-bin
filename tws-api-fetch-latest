@@ -1,0 +1,4 @@
+cd ~/tmp
+wget http://www.interactivebrokers.com/download/twsapi_unixmac.jar
+#http://www.interactivebrokers.com/download/unixmacosx.jar
+
