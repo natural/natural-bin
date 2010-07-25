@@ -8,7 +8,7 @@ from xml.etree import ElementTree
 def options(args=None):
     parser = OptionParser()
     add = parser.add_option
-    add('-i', '--id', dest='id', type='string', default='KAKANCHO26',
+    add('-i', '--id', dest='id', type='string', default='KAKANCHO52',
         help='Station ID.', metavar='ID')
     opts, args = parser.parse_args(sys.argv if args is None else args)
     return opts
