@@ -1,1 +1,2 @@
-SAL_USE_VCLPLUGIN=gen soffice
+SAL_USE_VCLPLUGIN=gen soffice $@
+
