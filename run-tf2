@@ -1,4 +1,22 @@
 #!/bin/bash
+if [ -z "$STEAM_HOME" ]
+then
+    echo "STEAM_HOME not set."
+    exit 1
+else
+    if [ -z "$STEAM_WINEPREFIX" ]
+    then
+	echo "STEAM_WINEPREFIX not set."
+	exit 2
+    else
+	cd "$STEAM_HOME"
+	WINEPREFIX="$STEAM_WINEPREFIX" WINEDEBUG=-all wine steam.exe -applaunch 440 -nointro -dxlevel 81
+    fi
+fi
 
-cd /home/troy/.wine-steam/drive_c/Program\ Files/Steam
-WINEPREFIX="/home/troy/.wine-steam" WINEDEBUG=-all wine steam.exe -applaunch 440 -nointro -dxlevel 81
+
+
+
+
+
+

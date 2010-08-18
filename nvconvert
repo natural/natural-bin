@@ -1,2 +1,2 @@
 #!/bin/bash
-WINEPREFIX="/home/troy/.wine-steam" wine "/home/troy/.wine-steam/drive_c/Program Files/XnView/nconvert.exe" $@
+WINEPREFIX="$STEAM_WINEPREFIX" wine "$STEAM_WINEPREFIX/drive_c/Program Files/XnView/nconvert.exe" $@

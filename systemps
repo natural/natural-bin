@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo CPU: `sensors | grep temp1 | cut -f 8- -d " "`
-nvclock -T | grep GPU | cut -f 2-4 -d " " | sed s/\ temperature//
-nvclock -T | grep Board | cut -f 2-4 -d " " | sed s/\ temperature//
+nvclock -T 2>/dev/null | grep GPU | cut -f 2-4 -d " " | sed s/\ temperature//
+nvclock -T 2>/dev/null | grep Board | cut -f 2-4 -d " " | sed s/\ temperature//
 
 
 
