@@ -17,6 +17,8 @@ def make_argparser():
 	description='Show Posts in Steam Downtime Announcements Thread')
     parser.add_argument('-n', '--num', default=3, type=int,
 			help='Number of posts to show')
+    parser.add_argument('-w', '--width', default=72, type=int,
+			help='Word wrap width')
     parser.add_argument('-g', '--given-date', action='store_true',
 			help='Print given date, not local date.', )
     return parser
@@ -41,6 +43,6 @@ if __name__ == '__main__':
 	author, date = [e.text for e in post.xpath('tr/td/table/tr/td')]
 	ann = post.xpath(".//div")[0].text_content()
 	print '{0} -- posted by {1}'.format(date, author)
-	for line in textwrap.wrap(ann, 72):
+	for line in textwrap.wrap(ann, args.width):
 	    print line
 	print
