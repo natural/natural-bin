@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# yaourt isn't needed, and it also adds an extra empty line to its
+# output, so we just use pacman.
+
+pacman -Qo "$@"

@@ -1,8 +1,0 @@
-#!/bin/bash
-URL="http://205.188.215.229:8012/"
-RIPS="$HOME/tmp/philosomatika"
-
-cd $RIPS
-rm ./incomplete/*
-streamripper $URL -u "Eric Cartman Inc." -d . -s -m 10 -k 1
-
