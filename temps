@@ -6,6 +6,6 @@ BRD=`echo $NVC | grep Board | cut -f 11 -d " "|sed s/C//`
 
 
 FS="%-12s%.1f°C\t%.1f°F\n"
-printf "$FS" "CPU" "$CPU" `units "$CPU degC" degF -t`
-printf "$FS" "GPU" "$GPU" `units "$GPU degC" degF -t`
-printf "$FS" "GPU Board" "$BRD" `units "$BRD degC" degF -t`
+printf "$FS" "CPU" "$CPU" `units "tempC($CPU)" tempF -t`
+printf "$FS" "GPU" "$GPU" `units "tempC($GPU)" tempF -t`
+printf "$FS" "GPU Board" "$BRD" `units "tempC($BRD)" tempF -t`
