@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 import argparse
 import datetime
@@ -40,9 +40,10 @@ if __name__ == '__main__':
 
     posts = ele.xpath(".//table[attribute::class='tborder']")
     for post in posts[-args.num:]:
-	author, date = [e.text for e in post.xpath('tr/td/table/tr/td')]
-	ann = post.xpath(".//div")[0].text_content()
-	print '{0} -- posted by {1}'.format(date, author)
-	for line in textwrap.wrap(ann, args.width):
-	    print line
-	print
+        author, date = [e.text for e in post.xpath('tr/td/table/tr/td')]
+        ann = post.xpath(".//div")[0].text_content()
+        print '{0} -- posted by {1}'.format(date, author)
+        for line in textwrap.wrap(ann, args.width):
+            print line
+        print
+

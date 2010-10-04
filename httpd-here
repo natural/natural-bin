@@ -1,0 +1,6 @@
+#!/usr/bin/env python2
+import SimpleHTTPServer
+try:
+    SimpleHTTPServer.test()
+except (KeyboardInterrupt, ):
+    pass

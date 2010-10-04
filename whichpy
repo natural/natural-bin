@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python -c "
+python2 -c "
 import sys
 try:
     import $1
