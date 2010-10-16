@@ -1,11 +1,6 @@
 #!/bin/bash
 CPU=`sensors|grep temp1|cut -f 8 -d " " | sed s/\+// | sed s/°C//`
-NVC=`nvclock -T 2>/dev/null`
-GPU=`echo $NVC | grep GPU | cut -f 7 -d " "|sed s/C//`
-BRD=`echo $NVC | grep Board | cut -f 11 -d " "|sed s/C//`
-
-
+GPU=`nvidia-smi -a -q 2> /dev/null | grep Temp|cut -f 2 -d ":" | sed s/\ //|sed s/\ C//`
 FS="%-12s%.1f°C\t%.1f°F\n"
 printf "$FS" "CPU" "$CPU" `units "tempC($CPU)" tempF -t`
 printf "$FS" "GPU" "$GPU" `units "tempC($GPU)" tempF -t`
-printf "$FS" "GPU Board" "$BRD" `units "tempC($BRD)" tempF -t`
