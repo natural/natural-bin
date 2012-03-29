@@ -1,8 +1,8 @@
 #!/bin/bash
 PKGS=`echo "$@" | sed -r 's/(\w*\/)//g'`
-if [ -e /usr/bin/yaourt ]
+if [ -e /usr/bin/packer ]
 then
-    yaourt -S $PKGS
+    packer -S $PKGS
 else
     pacman -S $PKGS
 fi

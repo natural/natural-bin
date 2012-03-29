@@ -1,9 +1,5 @@
 #!/bin/bash
 PKGS=`echo "$@" | sed -r 's/(\w*\/)//g'`
-if [ -e /usr/bin/yaourt ]
-then
-    yaourt -Qi $PKGS
-else
-    pacman -Qi $PKGS
-fi
+pacman -Qi $PKGS
+
 

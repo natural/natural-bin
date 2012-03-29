@@ -1,8 +1,4 @@
 #!/bin/bash
 PKGS=`echo "$@" | sed -r 's/(\w*\/)//g'`
-if [ -e /usr/bin/yaourt ]
-then
-    yaourt -Rns $PKGS
-else
-    pacman -Rns $PKGS
-fi
+sudo pacman -Rns $PKGS
+
