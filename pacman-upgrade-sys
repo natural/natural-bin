@@ -1,7 +1,2 @@
 #!/bin/bash
-if [ -e /usr/bin/packer ]
-then
-    packer -Syyu
-else
-    pacman -Syyu
-fi
+sudo pacman -Syyu
