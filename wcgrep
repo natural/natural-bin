@@ -1,2 +1,2 @@
 #!/bin/bash
-wcfind | xargs grep "$@" --color=auto -HnI
+wcfind -print0 | xargs -0 grep -Iine "$@"
