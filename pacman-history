@@ -1,0 +1,3 @@
+#!/bin/bash
+grep "\] installed\|]\ removed" /var/log/pacman.log|grep "installed\|removed"
+
