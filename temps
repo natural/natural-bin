@@ -1,6 +1,2 @@
 #!/bin/bash
-CPU=`sensors|grep temp1|cut -f 8 -d " " | sed s/\+// | sed s/°C//`
-GPU=`nvidia-smi -a -q 2> /dev/null | grep Temp|cut -f 2 -d ":" | sed s/\ //|sed s/\ C//`
-FS="%-12s%.1f°C\t%.1f°F\n"
-printf "$FS" "CPU" "$CPU" `units "tempC($CPU)" tempF -t`
-printf "$FS" "GPU" "$GPU" `units "tempC($GPU)" tempF -t`
+temps.$HOSTNAME
