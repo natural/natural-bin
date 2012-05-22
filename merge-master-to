@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+if [ -n "$1" ]
+then
+    if [[ `git status -z` != "" ]]
+    then
+        echo "Uncommited changes detected; nothing done."
+        exit 2
+    fi
+
+    echo [OKAY] "$1"
+
+    git checkout master && \
+    git pull origin master && \
+    git checkout "$1" && \
+    git pull origin "$1" && \
+    git merge master
+
+    echo To push your changes run:
+    echo git push origin "$1"
+    echo
+    echo To resolve conflicts run:
+    echo git mergetool --tool=opendiff
+else
+    echo Usage: `basename "$0"` "<branchname>"
+    exit 1
+fi

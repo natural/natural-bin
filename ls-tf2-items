@@ -1,0 +1,131 @@
+#!/usr/bin/env python
+import sys
+import json
+import urllib
+
+
+items_url_fs = 'http://tf2apiproxy.appspot.com/api/v2/public/items/{}'
+schema_url = 'http://tf2apiproxy.appspot.com/api/v2/public/schema'
+quality_prefix = {3: 'v. ', 5: 'Unusual ', 1: 'g. ', 11:'Strange '}
+group_sorts = {'Scout':-9, 'Soldier':-8, 'Pyro':-7,
+               'Demoman':-6, 'Heavy':-5, 'Engineer':-4,
+               'Medic':-3, 'Sniper':-2, 'Spy':-1}
+
+
+def get_items(id64):
+    url = items_url_fs.format(id64)
+    try:
+        return json.load(urllib.urlopen(url))['result']['items']['item']
+    except (Exception, ), exc:
+        print >> sys.stderr, exc
+        return None
+
+
+def get_schema():
+    try:
+        schema = json.load(urllib.urlopen(schema_url))
+        return dict((i['defindex'], i) for i in schema['result']['items']['item'])
+    except (Exception, ), exc:
+        print >> sys.stderr, exc
+        return None
+
+
+def get_crate_series(item):
+    try:
+        attrs = item['attributes']['attribute']
+        for attr in attrs:
+            if attr['defindex'] == 187:
+                return int(attr['float_value'])
+    except (KeyError, ):
+        return 0
+
+
+def get_inventory(items, schemamap):
+    inventory, item_counts, item_seen = {}, {}, {}
+    for item in items:
+        i = item['defindex']
+        cs = get_crate_series(item)
+        k = '{}.{}'.format(i, cs)
+        item_counts[k] = 1 + item_counts.get(k, 0)
+    for item in items:
+        i = item['defindex']
+        d = schemamap[i]
+        cc = d.get('craft_class')
+        if item.get('flag_cannot_trade'):
+            continue # skip untradable items
+        if item['inventory'] & 0xff0000 != 0:
+            continue # skip equipped items
+        if d.get('name') == 'Decoder Ring':
+            continue # skip keys
+        if cc == 'craft_bar':
+            continue # skip metal
+        cs = get_crate_series(item)
+        k = '{}.{}'.format(i, cs)
+        if item_counts[k] == 1:
+            suffix = ''
+        elif k in item_seen:
+            continue
+        else:
+            item_seen[k] = True
+            suffix = ' (x{})'.format(item_counts[k])
+        prefix = quality_prefix.get(item['quality'], '')
+        name = d['item_name']
+        if d.get('item_class') == 'tf_wearable':
+            hat = True
+        else:
+            hat = False
+        if cs:
+            name = '{} Series #{}'.format(name, cs)
+        elif hat:
+            name = '{} - Level {}'.format(name, item.get('level', '?'))
+        have = inventory.setdefault(cc, [])
+        have.append((d, u'{}{}{}'.format(prefix, name, suffix)))
+    remap_weapons(inventory)
+    return inventory
+
+
+def remap_weapons(inv):
+    weapons = inv.pop('weapon', [])
+    for weapon, title in weapons:
+        classes = weapon.get('used_by_classes')
+        for name in classes.get('class', ()):
+            which = inv.setdefault(name, [])
+            which.append((weapon, title))
+
+
+def deco_inventory(inv):
+    decorated = {}
+    for k in inv:
+        idx = group_sorts.get(k, 1)
+        decorated[(idx, k)] = inv[k]
+    return decorated
+
+
+def main(id64):
+    items = get_items(id64)
+    if not items:
+        print >> sys.stderr, 'empty backpack'
+        return 2
+    schema = get_schema()
+    if not schema:
+        print >> sys.stderr, 'schema fetch error'
+        return 3
+    inventory = get_inventory(items, schema)
+    for g, group in sorted(deco_inventory(inventory)):
+        if not group:continue
+        print '** {} **'.format( (group or 'unknown').replace('_', ' ').title() )
+        print
+        for defn, title in sorted(inventory[group], key=lambda v:v[1]):
+            print u'* {}'.format(title)
+        print
+    return 0
+
+
+if __name__ == '__main__':
+    try:
+        id64 = sys.argv[1]
+    except (IndexError, ):
+        print 'usage: {} ID64'.format(sys.argv[0])
+        sys.exit(1)
+    else:
+        sys.exit(main(id64))
