@@ -1,0 +1,11 @@
+#!/bin/bash
+SYS=`sensors|grep SYSTIN|cut -f 8 -d " " | sed s/\+// | sed s/°C//`
+CPU=`sensors|grep CPUTIN|cut -f 8 -d " " | sed s/\+// | sed s/°C//`
+
+GPU=`nvidia-smi -a -q|grep Gpu|grep C|cut -f 2 -d ":" |sed s/\ //|sed s/\ C//`
+FS="%-12s%.1f°C\t%.1f°F\n"
+
+
+printf "$FS" "CPU" "$CPU" `units "tempC($CPU)" tempF -t`
+printf "$FS" "GPU" "$GPU" `units "tempC($GPU)" tempF -t`
+printf "$FS" "SYS" "$SYS" `units "tempC($SYS)" tempF -t`
