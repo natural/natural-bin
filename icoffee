@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rlwrap --always-readline --history-filename=$HOME/.icoffee_history -c -p GREEN -S "> " coffee

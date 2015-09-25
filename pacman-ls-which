@@ -1,0 +1,10 @@
+#!/bin/bash
+
+FILE=`which $@ 2>/dev/null`
+
+if [ "$FILE" = "" ]; then
+   exit 1
+fi
+
+PKG=`pacman -Qo "$FILE" | cut -f 5 -d " "`
+pacman -Ql "$PKG" | cut -f 2 -d " "

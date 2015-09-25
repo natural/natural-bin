@@ -1,0 +1,5 @@
+#!/bin/bash
+RIPS="$HOME/tmp/rippage"
+cd $RIPS
+rm ./incomplete/*
+streamripper $URL -u "Eric Cartman Inc." -d ./complete -s -m 10 -k 1
