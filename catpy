@@ -1,3 +1,0 @@
-#!/bin/bash
-
-whichpy "$1" | xargs cat

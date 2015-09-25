@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rlwrap --always-readline --history-filename=$HOME/.imongo_history -c -p BLACK -S ">> " mongo

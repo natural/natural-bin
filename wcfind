@@ -1,2 +1,2 @@
 #!/bin/bash
-find . \( -type f \) -and \( -not -regex .*\.git.* \) -and \( -not -regex .*\.svn.* \) "$@"
+find . \( -type f \) -and \( -not -regex .*\.git.* \) -and \( -not -regex .*\.svn.* \) -and \( -not -regex .*\node_modules.* \) "$@"

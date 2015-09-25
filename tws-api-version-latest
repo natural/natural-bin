@@ -1,7 +1,0 @@
-#!/bin/bash
-APIFILE=/tmp/twsapi_unixmac.jar
-rm -f $APIFILE
-wget -q http://www.interactivebrokers.com/download/twsapi_unixmac.jar -O $APIFILE
-unzip -p $APIFILE IBJts/API_VersionNum.txt | cut -f 2 -d "="
-rm $APIFILE
-

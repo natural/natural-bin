@@ -1,2 +1,2 @@
 #!/bin/bash
-wget -qO - http://www.sputnick-area.net/ip;echo
+curl https://wtfismyip.com/text

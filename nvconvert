@@ -1,2 +1,0 @@
-#!/bin/bash
-WINEPREFIX="$STEAM_WINEPREFIX" wine "$STEAM_WINEPREFIX-0/drive_c/XnView/nconvert.exe" $@

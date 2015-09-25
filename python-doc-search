@@ -1,8 +1,0 @@
-#!/bin/bash
-if [ -z "$BROWSER" ]
-then
-    B=/usr/bin/google-chrome
-else
-    B=$BROWSER
-fi
-"$B" "http://docs.python.org/search.html?q=$@"

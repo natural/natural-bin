@@ -1,2 +1,6 @@
 #!/bin/bash
-wcfind -print0 | xargs -0 grep -Iine "$@"
+if type ag >/dev/null 2>&1; then
+  ag "$@"
+else
+  wcfind -print0 | xargs -0 grep -Iine "$@"
+fi

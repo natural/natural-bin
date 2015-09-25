@@ -1,2 +1,2 @@
 #!/bin/bash
-find | grep "pyc$\|~$" | xargs rm -f
+find . | grep "pyc$\|~$" | xargs rm -f

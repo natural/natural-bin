@@ -1,3 +1,0 @@
-#!/bin/bash
-
-strace -p `pidof hl2\.exe` -e network 2>&1|grep "inet_addr\|recvmsg\|sendmsg"
