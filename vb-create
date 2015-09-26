@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# require first argument
+NAME="$1"
+if [ "$NAME" = "" ]; then
+   exit 1
+fi
+shift
+
+# require ISO value in env
+ISO="$ISO"
+if [ "$ISO" = "" ]; then
+    echo environment variable ISO not set.
+    exit 2
+fi
+
+# require VDI value in env
+VDI="$VDI"
+if [ "$VDI" = "" ]; then
+    echo environment variable VDI not set.
+    exit 3
+fi
+
+
+# slurp the core count
+CPUS=`VBoxManage list hostinfo|grep "Processor online core count:"|cut -f 5 -d " "`
+
+
+# create and register the vm
+VBoxManage createvm --register --name "$NAME" $@
+
+
+# set explicitly before the other modifications
+VBoxManage modifyvm "$NAME" \
+           --acpi on \
+           --ioapic on
+
+
+# basic modifications
+VBoxManage modifyvm "$NAME" \
+           --boot1 dvd \
+           --boot2 disk \
+           --boot3 none \
+           --boot4 none \
+           --chipset ich9 \
+           --cpus $CPUS \
+           --memory 4096 \
+           --nestedpaging on \
+           --ostype Linux_64 \
+           --pae on \
+           --paravirtprovider kvm \
+           --rtcuseutc on \
+           --vrde on \
+           --vtxux on \
+           --vtxvpid on
+
+
+# configure the network/nic
+VBoxManage modifyvm "$NAME" \
+           --nic1 bridged \
+           --nictype1 82540EM \
+           --macaddress1 auto # lookup/read for value?
+
+
+# create sata controller
+VBoxManage storagectl "$NAME" \
+           --name "SATA" \
+           --add sata \
+           --controller "IntelAhci" \
+           --bootable on
+
+
+# create and attach a hdd
+VBoxManage createmedium disk \
+           --filename $VDI \
+           --size 4096
+VBoxManage storageattach "$NAME" \
+           --storagectl "SATA" \
+           --port 0 \
+           --device 0 \
+           --type hdd \
+           --medium $VDI
+
+
+# attach an iso
+VBoxManage storageattach "$NAME" \
+           --storagectl "SATA" \
+           --port 1 \
+           --device 0 \
+           --type dvddrive \
+           --medium $ISO
+

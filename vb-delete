@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# require first argument
+NAME="$1"
+if [ "$NAME" = "" ]; then
+   exit 1
+fi
+
+
+# bye
+VBoxManage unregistervm "$NAME" --delete
